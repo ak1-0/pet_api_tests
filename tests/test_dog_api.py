@@ -19,3 +19,39 @@ def test_list_breeds():
     assert "status" in data
     assert data["status"] == "success"
     assert isinstance(data["message"], dict)  # Список пород
+
+def test_breed_images():
+    breed = "retriever/golden"
+    response = requests.get(f"{DOG_API_URL}/breed/{breed}/images")
+    assert response.status_code == 200
+    data = response.json()
+    assert "message" in data
+    assert "status" in data
+    assert data["status"] == "success"
+    assert isinstance(data["message"], list)  # Список URL изображений
+
+def test_random_breed_image():
+    breed = "hound/afghan"
+    response = requests.get(f"{DOG_API_URL}/breed/{breed}/images/random")
+    assert response.status_code == 200
+    data = response.json()
+    assert "message" in data
+    assert "status" in data
+    assert data["status"] == "success"
+    assert isinstance(data["message"], str)  # URL изображения
+
+def test_random_sub_breed_image():
+    breed = "hound"
+    sub_breed = "afghan"
+    response = requests.get(f"{DOG_API_URL}/breed/{breed}/{sub_breed}/images/random")
+    assert response.status_code == 200
+    data = response.json()
+    assert "message" in data
+    assert "status" in data
+    assert data["status"] == "success"
+    assert isinstance(data["message"], str)  # URL изображения
+
+def test_non_existent_breed():
+    breed = "unicorn"
+    response = requests.get(f"{DOG_API_URL}/breed/{breed}/images")
+    assert response.status_code == 404  
