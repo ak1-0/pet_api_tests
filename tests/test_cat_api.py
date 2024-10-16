@@ -8,11 +8,11 @@ def test_random_cat_image():
     data = response.json()
     assert isinstance(data, list)
     assert len(data) > 0
-    assert "url" in data[0]  # URL изображения
+    assert "url" in data[0] 
 
 def test_list_breeds():
     response = requests.get(f"{CAT_API_URL}/breeds")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
-    assert len(data) > 0  # Список пород
+    assert len(data) > 0  
