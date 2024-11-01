@@ -54,4 +54,23 @@ def test_random_sub_breed_image():
 def test_non_existent_breed():
     breed = "unicorn"
     response = requests.get(f"{DOG_API_URL}/breed/{breed}/images")
-    assert response.status_code == 404  
+    assert response.status_code == 404
+
+def test_breed_image_count():
+    # Проверка количества изображений породы
+    breed = "retriever/golden"
+    response = requests.get(f"{DOG_API_URL}/breed/{breed}/images")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "success"
+    assert len(data["message"]) > 0
+    assert isinstance(data["message"], list)
+
+def test_sub_breed_list():
+    # Получение списка подвидов породы
+    breed = "hound"
+    response = requests.get(f"{DOG_API_URL}/breed/{breed}/list")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "success"
+    assert isinstance(data["message"], list)
